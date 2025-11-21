@@ -320,49 +320,12 @@ Contributions are welcome! Here's how:
 
 ---
 
-## 📄 License
-
-This project is licensed under the **MIT License** – feel free to use, modify, and distribute.
-
-```
-MIT License
-
-Copyright (c) 2025 Recipe Manager
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-```
-
----
 
 ## 🙏 Acknowledgments
 
-- Background image by [Unsplash](https://unsplash.com)
 - Icons: Native emoji characters
 - Inspired by modern recipe apps like Paprika, Notion, and Whisk
 - Built with ❤️ and vanilla JavaScript
-
----
-
-## 📞 Support
-
-Having issues? Here's how to get help:
-
-- 🐛 **Bug Reports**: [Open an issue](https://github.com/yourusername/recipe-manager/issues)
-- 💡 **Feature Requests**: [Open an issue](https://github.com/yourusername/recipe-manager/issues)
-- 📖 **Documentation**: This README
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/yourusername/recipe-manager/discussions)
 
 ---
 
