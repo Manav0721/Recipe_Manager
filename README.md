@@ -11,7 +11,7 @@
 
 *Store, organize, and manage your favorite recipes with a sleek interface*
 
-[View Demo](#-features) · [Report Bug](https://github.com/yourusername/recipe-manager/issues) · [Request Feature](https://github.com/yourusername/recipe-manager/issues)
+[View Demo](https://manav0721.github.io/Recipe_Manager/) · [Report Bug](https://github.com/yourusername/recipe-manager/issues) · [Request Feature](https://github.com/yourusername/recipe-manager/issues)
 
 </div>
 
