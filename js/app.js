@@ -211,6 +211,13 @@ function initEvents() {
   });
   deleteRecipeBtn.addEventListener("click", handleDeleteRecipe);
 
+  document.getElementById("homeBtn").addEventListener("click", () => {
+    switchView("list");
+    renderRecipeList();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  
+
   // keyboard shortcuts (^ to add, ` to search)
   document.addEventListener("keydown", (e) => {
     if (e.key === "^") {
