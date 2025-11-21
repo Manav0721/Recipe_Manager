@@ -44,6 +44,7 @@
 - 🎨 **Beautiful UI** – Modern dark theme with smooth animations
 - 📱 **Fully Responsive** – Works on desktop, tablet, and mobile
 - 🔒 **Private** – All data stays on your device
+-    **Home Page Rendering** - You can navigate to the home page by clicking on the Recipe Manager on the top left corner
 
 ---
 
