@@ -133,12 +133,16 @@ That's it! No build process, no npm install, no configuration needed.
 
 recipe-manager/
 │
-├── index.html # Main HTML structure
-├── main.css # Styling, dark theme, responsive layout, print view
-├── app.js # Main application controller (state, events, pagination, favorites)
-├── ui.js # UI rendering, DOM manipulation, pagination, favorites
-├── storage.js # localStorage management + seed data
-└── validation.js # Form validation logic
+├── index.html               # Main HTML structure
+├── main.css                 # Styling, dark theme, responsive layout, print view
+│
+├── js/                      # JavaScript folder
+│   ├── app.js               # Main application controller (state, events, pagination, favorites)
+│   ├── ui.js                # UI rendering, DOM manipulation, pagination, favorites
+│   ├── storage.js           # localStorage management + seed data
+│   └── validation.js        # Form validation logic
+
+
 
 text
 
