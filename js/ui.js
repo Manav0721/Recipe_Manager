@@ -11,6 +11,7 @@ const views = {
 const recipeGrid = document.getElementById("recipeGrid");
 const emptyState = document.getElementById("emptyState");
 const resultInfo = document.getElementById("resultInfo");
+const paginationEl = document.getElementById("pagination");
 
 // Detail DOM
 const detailTitle = document.getElementById("detailTitle");
@@ -102,14 +103,22 @@ export function hideFormErrorsUI() {
 }
 
 /* ========== List rendering ========== */
-export function renderRecipeList(recipes, filters, onCardClick) {
-  const { search, difficulty, type } = filters;
+export function renderRecipeList(recipes, filters, onCardClick, options = {}) {
+  const { search, difficulty, type, favoritesOnly } = {
+    search: filters.search,
+    difficulty: filters.difficulty,
+    type: filters.type,
+    favoritesOnly: !!filters.favoritesOnly,
+  };
+
+  const { onFavoriteToggle, pagination } = options;
 
   let filtered = recipes.slice();
 
   if (search) {
+    const searchLower = search.toLowerCase();
     filtered = filtered.filter((r) =>
-      r.title.toLowerCase().includes(search)
+      (r.title || "").toLowerCase().includes(searchLower)
     );
   }
 
@@ -121,9 +130,16 @@ export function renderRecipeList(recipes, filters, onCardClick) {
     filtered = filtered.filter((r) => (r.type || "veg") === type);
   }
 
-  recipeGrid.innerHTML = "";
+  if (favoritesOnly) {
+    filtered = filtered.filter((r) => !!r.isFavorite);
+  }
 
-  if (!filtered.length) {
+  recipeGrid.innerHTML = "";
+  if (paginationEl) paginationEl.innerHTML = "";
+
+  const total = filtered.length;
+
+  if (!total) {
     emptyState.classList.remove("hidden");
     if (resultInfo) resultInfo.textContent = "";
     return;
@@ -131,11 +147,30 @@ export function renderRecipeList(recipes, filters, onCardClick) {
     emptyState.classList.add("hidden");
   }
 
-  if (resultInfo) {
-    resultInfo.textContent = `Showing ${filtered.length} recipe(s)`;
+  // Pagination
+  let page = 1;
+  let perPage = total;
+  let onPageChange = null;
+
+  if (pagination) {
+    page = Math.max(1, Number(pagination.page) || 1);
+    perPage = Number(pagination.perPage) || total;
+    onPageChange =
+      typeof pagination.onPageChange === "function" ? pagination.onPageChange : null;
   }
 
-  filtered.forEach((recipe, index) => {
+  const totalPages = Math.max(1, Math.ceil(total / perPage));
+  if (page > totalPages) page = totalPages;
+
+  const startIndex = (page - 1) * perPage;
+  const endIndex = Math.min(startIndex + perPage, total);
+  const pageItems = filtered.slice(startIndex, endIndex);
+
+  if (resultInfo) {
+    resultInfo.textContent = `Showing ${startIndex + 1}–${endIndex} of ${total} recipe(s)`;
+  }
+
+  pageItems.forEach((recipe, index) => {
     const card = document.createElement("article");
     card.className = "recipe-card";
     card.dataset.id = recipe.id;
@@ -146,7 +181,7 @@ export function renderRecipeList(recipes, filters, onCardClick) {
     const difficultyBadge = `<span class="badge ${recipe.difficulty}">${capitalize(
       recipe.difficulty
     )}</span>`;
-    const totalTime = recipe.totalTime || recipe.prepTime + recipe.cookTime;
+    const totalTime = recipe.totalTime || (recipe.prepTime || 0) + (recipe.cookTime || 0);
 
     const safeTitle = escapeHTML(recipe.title);
     const imgSrc =
@@ -170,7 +205,19 @@ export function renderRecipeList(recipes, filters, onCardClick) {
     const typeClass = recipe.type === "nonveg" ? "nonveg" : "veg";
     const typePill = `<span class="type-pill ${typeClass}">${typeLabel}</span>`;
 
+    const isFav = !!recipe.isFavorite;
+    const favoriteClasses = `favorite-toggle${isFav ? " is-favorite" : ""}`;
+    const favoriteLabel = isFav ? "★" : "☆";
+    const favoriteTitle = isFav ? "Remove from favorites" : "Add to favorites";
+
     card.innerHTML = `
+      <button
+        type="button"
+        class="${favoriteClasses}"
+        title="${favoriteTitle}"
+        aria-label="Toggle favorite">
+        ${favoriteLabel}
+      </button>
       ${thumbHTML}
       <div class="recipe-card-content">
         <h2 class="recipe-card-title">${safeTitle}</h2>
@@ -178,7 +225,7 @@ export function renderRecipeList(recipes, filters, onCardClick) {
           ${escapeHTML(recipe.description || "").slice(0, 120)}
           ${
             recipe.description && recipe.description.length > 120
-              ? "..."
+              ? "…"
               : ""
           }
         </p>
@@ -191,8 +238,38 @@ export function renderRecipeList(recipes, filters, onCardClick) {
     `;
 
     card.addEventListener("click", () => onCardClick(recipe.id));
+
+    const favoriteBtn = card.querySelector(".favorite-toggle");
+    if (favoriteBtn && onFavoriteToggle) {
+      favoriteBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        onFavoriteToggle(recipe.id);
+      });
+    }
+
     recipeGrid.appendChild(card);
   });
+
+  // Render pagination controls (Prev / Page X of Y / Next)
+  if (paginationEl && totalPages > 1 && onPageChange) {
+    const prevBtn = document.createElement("button");
+    prevBtn.textContent = "Previous";
+    prevBtn.disabled = page === 1;
+    prevBtn.addEventListener("click", () => onPageChange(page - 1));
+
+    const info = document.createElement("span");
+    info.className = "pagination-info";
+    info.textContent = `Page ${page} of ${totalPages}`;
+
+    const nextBtn = document.createElement("button");
+    nextBtn.textContent = "Next";
+    nextBtn.disabled = page === totalPages;
+    nextBtn.addEventListener("click", () => onPageChange(page + 1));
+
+    paginationEl.appendChild(prevBtn);
+    paginationEl.appendChild(info);
+    paginationEl.appendChild(nextBtn);
+  }
 }
 
 /* ========== Detail rendering ========== */
@@ -224,7 +301,7 @@ export function showRecipeDetail(recipe) {
   detailPrepTime.textContent = recipe.prepTime || 0;
   detailCookTime.textContent = recipe.cookTime || 0;
   detailTotalTime.textContent =
-    recipe.totalTime || recipe.prepTime + recipe.cookTime;
+    recipe.totalTime || (recipe.prepTime || 0) + (recipe.cookTime || 0);
 
   // ingredients
   detailIngredients.innerHTML = "";

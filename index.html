@@ -12,7 +12,6 @@
       <button id="homeBtn" class="header-logo">
         🍽️ Recipe Manager
       </button>
-      
     </div>
     <div class="header-actions">
       <button id="addRecipeBtn" class="btn primary">+ Add Recipe</button>
@@ -20,7 +19,6 @@
   </header>
 
   <main class="app-main">
-
     <!-- Home / List View -->
     <section id="recipe-list-view" class="view active">
       <div class="toolbar card-toolbar">
@@ -28,7 +26,7 @@
           <input
             type="text"
             id="searchInput"
-            placeholder="Search recipes by title (Paneer, Biryani, Sandwich...)"
+            placeholder="Search recipes by title (Paneer, Biryani, Sandwich.)"
             aria-label="Search recipes by title"
           />
         </div>
@@ -84,6 +82,13 @@
               <div class="type-slider-thumb"></div>
             </div>
           </div>
+
+          <!-- Favorites Filter Toggle -->
+          <label class="favorites-toggle" id="favoritesToggleLabel">
+            <input type="checkbox" id="favoritesOnlyToggle" />
+            <span class="favorites-icon">★</span>
+            <span class="favorites-label">Favorites only</span>
+          </label>
         </div>
       </div>
 
@@ -92,6 +97,9 @@
       <div id="recipeGrid" class="recipe-grid">
         <!-- Recipe cards injected here -->
       </div>
+
+      <!-- Pagination -->
+      <div id="pagination" class="pagination"></div>
 
       <p id="emptyState" class="empty-state hidden">
         No recipes found. Try a different search/filter or add a new recipe.
@@ -136,6 +144,9 @@
         </div>
 
         <div class="detail-actions">
+          <button id="detailFavoriteBtn" class="btn secondary">☆ Add to favorites</button>
+          <button id="copyIngredientsBtn" class="btn secondary">Copy Ingredients</button>
+          <button id="printRecipeBtn" class="btn secondary">Print / Export PDF</button>
           <button id="editRecipeBtn" class="btn secondary">Edit</button>
           <button id="deleteRecipeBtn" class="btn danger">Delete</button>
         </div>
@@ -171,7 +182,7 @@
           <div class="form-group">
             <label for="recipeType">Dish Type *</label>
             <select id="recipeType" required>
-              <option value="">Select Veg / Non-veg...</option>
+              <option value="">Select Veg / Non-veg.</option>
               <option value="veg">Veg</option>
               <option value="nonveg">Non-veg</option>
             </select>
@@ -206,7 +217,7 @@
             <div class="form-group">
               <label for="difficulty">Difficulty *</label>
               <select id="difficulty" required>
-                <option value="">Select...</option>
+                <option value="">Select.</option>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
@@ -227,16 +238,22 @@
         </form>
       </div>
     </section>
-
   </main>
 
+  <!-- Floating Add button -->
+  <button id="fabAddRecipe" class="fab-add" aria-label="Add new recipe">+</button>
+
   <footer class="app-footer">
-    <p>&copy; <span id="current-year"></span> Recipe Manager • Built with HTML, CSS, JavaScript &amp; localStorage • Press <kbd>^</kbd> to add new recipe, <kbd>`</kbd> to search.</p>
+    <p>
+      &copy; <span id="current-year"></span> Recipe Manager • Built with HTML, CSS, JavaScript &amp; localStorage •
+      Press <kbd>^</kbd> to add new recipe, <kbd>`</kbd> to search.
+    </p>
   </footer>
 
   <!-- Toasts -->
   <div id="toastContainer" class="toast-container"></div>
 
+  <!-- Make sure path matches your folder structure -->
   <script type="module" src="./js/app.js"></script>
 </body>
 </html>
