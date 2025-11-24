@@ -11,7 +11,7 @@
 
 *Store, organize, and manage your favorite recipes with a sleek interface*
 
-[View Demo](https://manav0721.github.io/Recipe_Manager/) 
+[View Demo](https://manav0721.github.io/Recipe_Manager/)
 
 </div>
 
@@ -28,8 +28,10 @@
 - [Browser Support](#-browser-support)
 - [Assumptions & Limitations](#-assumptions--limitations)
 - [Known Issues](#-known-issues)
+- [Technical Details](#-technical-details)
 - [Contributing](#-contributing)
-- [License](#-license)
+- [Acknowledgments](#-acknowledgments)
+- [Roadmap](#-roadmap)
 
 ---
 
@@ -43,36 +45,54 @@
 - 🚀 **Lightning Fast** – No backend, no loading times
 - 🎨 **Beautiful UI** – Modern dark theme with smooth animations
 - 📱 **Fully Responsive** – Works on desktop, tablet, and mobile
+- ⭐ **Favorites System** – Star your go-to recipes
 - 🔒 **Private** – All data stays on your device
--    **Home Page Rendering** - You can navigate to the home page by clicking on the Recipe Manager on the top left corner
+- 🏠 **Home Navigation** – Click **“Recipe Manager”** in the header to instantly return to the recipe list
 
 ---
 
 ## ✨ Features
 
 ### Core Functionality
-- ➕ **Add/Edit/Delete** recipes with rich details
-- 🔍 **Instant Search** by title or description
-- 🎚️ **Smart Filters** by difficulty (Easy/Medium/Hard)
-- 🌿 **Type Toggle** for Veg/Non-Veg recipes
+
+- ➕ **Add / Edit / Delete** recipes with rich details
+- 🔍 **Instant Search** by title
+- 🎚️ **Smart Filters** by difficulty (Easy / Medium / Hard)
+- 🌿 **Type Toggle Slider** for Veg / Non-Veg / Both
 - 📸 **Image Support** via external URLs
-- 💾 **Auto-Save** to localStorage
+- 💾 **Auto-Save** to localStorage (no backend)
+- ⭐ **Favorites per Recipe**
+  - Star icon on each card
+  - Favorite button in recipe detail view
+- 🧲 **Favorites Filter**
+  - “Favorites only” toggle in toolbar to quickly see starred recipes
+- 📄 **Pagination**
+  - Recipes listed with pagination (9 per page by default)
+  - “Previous / Next” controls + counter (e.g. *Showing 1–6 of 6 recipe(s)*)
 
 ### User Experience
+
 - ⌨️ **Keyboard Shortcuts** for power users
-- 🎨 **Smooth Animations** and transitions
-- 📊 **Result Counter** shows filtered recipes
-- 🍞 **Toast Notifications** for actions
-- 📱 **Mobile-Optimized** layout
+- 🎨 **Smooth Animations** and transitions on cards and UI elements
+- 📊 **Result Counter** showing how many recipes match current filters
+- 🍞 **Toast Notifications** for add/update/delete, validation, etc.
+- 📱 **Mobile-Optimized** layout and spacing
+- ➕ **Floating Add Button (FAB)** on mobile/desktop to quickly add a new recipe
+- 📋 **Copy Ingredients** button in detail view (copies ingredients to clipboard)
+- 🖨️ **Print / Export to PDF**
+  - Dedicated print stylesheet
+  - Use browser “Print → Save as PDF” to export a clean recipe view
 
 ### Pre-loaded Recipes
+
 Comes with **6 delicious sample recipes**:
-- 🥘 Paneer Tikka Masala
-- ☕ Masala Chai
-- 🥪 Veg Sandwich
-- 🍚 Veg Pulao
-- 🍗 Chicken Biryani
-- 🍛 Butter Chicken
+
+- 🥘 Paneer Tikka Masala  
+- ☕ Masala Chai  
+- 🥪 Veg Sandwich  
+- 🍚 Veg Pulao  
+- 🍗 Chicken Biryani  
+- 🍛 Butter Chicken  
 
 ---
 
@@ -81,276 +101,182 @@ Comes with **6 delicious sample recipes**:
 ### Installation
 
 1. **Download** or clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/recipe-manager.git
-   cd recipe-manager
-   ```
 
-2. **Open** `index.html` in your browser:
-   ```bash
-   # On macOS
-   open index.html
+git clone https://github.com/yourusername/recipe-manager.git
+cd recipe-manager
 
-   # On Linux
-   xdg-open index.html
+text
 
-   # On Windows
-   start index.html
-   ```
+2. Open `index.html` in your browser:
 
-3. **That's it!** No build process, no npm install, no configuration needed.
+- On macOS
+
+  ```
+  open index.html
+  ```
+
+- On Linux
+
+  ```
+  xdg-open index.html
+  ```
+
+- On Windows
+
+  ```
+  start index.html
+  ```
+
+That's it! No build process, no npm install, no configuration needed.
 
 ### File Structure
 
-```
 recipe-manager/
 │
-├── 📄 index.html          # Main HTML structure
-├── 🎨 main.css            # Styling and dark theme
-├── ⚙️ app.js              # Main application controller
-├── 🖼️ ui.js               # UI rendering and DOM manipulation
-├── 💾 storage.js          # localStorage management + seed data
-└── ✅ validation.js       # Form validation logic
-```
+├── index.html # Main HTML structure
+├── main.css # Styling, dark theme, responsive layout, print view
+├── app.js # Main application controller (state, events, pagination, favorites)
+├── ui.js # UI rendering, DOM manipulation, pagination, favorites
+├── storage.js # localStorage management + seed data
+└── validation.js # Form validation logic
+
+text
 
 ---
 
 ## 💾 Data Structure
 
-All recipes are stored in **localStorage** under the key: `recipes_dark_app_v3_slider`
+All recipes are stored in localStorage under the key:
 
-### Recipe Object Schema
-
-```javascript
-{
-  id: "lq8z3f5g",              // Unique auto-generated ID
-  title: "Paneer Tikka Masala",
-  description: "Restaurant-style Paneer Tikka...",
-  type: "veg",                 // "veg" | "nonveg"
-  difficulty: "medium",        // "easy" | "medium" | "hard"
-
-  ingredients: [               // Array of strings
-    "250 g paneer, cubed",
-    "1/2 cup thick yogurt"
-  ],
-
-  steps: [                     // Array of strings
-    "Mix yogurt and spices...",
-    "Marinate paneer for 15 mins..."
-  ],
-
-  prepTime: 30,                // Minutes (number)
-  cookTime: 25,                // Minutes (number)
-  totalTime: 55,               // Auto-calculated
-
-  imageUrl: "https://...",     // External URL (optional)
-  createdAt: "2025-11-21T09:20:23.825Z",
-  updatedAt: "2025-11-21T09:20:23.825Z"
-}
-```
-
-### Data Persistence
-
-- Automatically saves to `localStorage` on every change
-- Survives page refreshes and browser restarts
-- **Warning**: Clearing browser data will delete all recipes
-- No cloud backup – data is device-specific
-
----
+`recipes_dark_app_v3_slider`
 
 ## 🎮 Usage
 
 ### Adding a Recipe
 
-1. Click the **"+ Add Recipe"** button (or press `^`)
-2. Fill in all required fields:
-   - Title and Description
-   - Ingredients (one per line)
-   - Steps (one per line)
-   - Prep & Cook Time (in minutes)
-   - Difficulty level
-   - Veg/Non-Veg type
-3. Optionally add an image URL
-4. Click **"Save Recipe"**
+Click the **+ Add Recipe** button in the header, or tap the green floating + button at the bottom right, or press the `^` shortcut.
+
+Fill in all required fields:
+
+- Title and Description
+- Ingredients (one per line)
+- Steps (one per line)
+- Prep & Cook Time (in minutes)
+- Difficulty level
+- Veg / Non-Veg type
+- Optionally add an image URL
+
+Click **Save Recipe** to save.
 
 ### Searching & Filtering
 
-- **Search Bar**: Type to filter by title/description
-- **Difficulty Dropdown**: Filter by cooking difficulty
-- **Type Slider**: Toggle between All/Veg/Non-Veg
+- Search Bar: filter recipes by title
+- Difficulty Dropdown: filter by cooking difficulty
+- Type Slider: toggle Veg / Non-Veg / Both
+- Favorites Only: toggle to show only starred recipes
 
-### Viewing Recipe Details
+The toolbar bar shows the count of visible recipes.
 
-Click any recipe card to see:
-- Full ingredient list
-- Step-by-step instructions
-- Cooking times and difficulty
-- Large preview image
+### Favorites
 
-### Editing & Deleting
+Click the star icon on a recipe card or use the favorite button inside recipe details.
 
-- Click **"Edit"** button in detail view to modify recipe
-- Click **"Delete"** button to remove (confirmation required)
+### Recipe Details
+
+Click any recipe card for full details (ingredients, steps, time, badges, image).
+
+### Edit / Delete
+
+Edit or delete recipes from detail view. No undo for delete.
+
+### Copy Ingredients
+
+Click **Copy Ingredients** in detail view to copy ingredients to clipboard.
+
+### Print / Export PDF
+
+Click **Print / Export PDF** in detail to open print-friendly view and export via browser.
 
 ---
 
 ## ⌨️ Keyboard Shortcuts
 
-| Shortcut | Action |
-|----------|--------|
-| `^` | Open "Add Recipe" form |
-| `` ` `` (backtick) | Focus search bar |
+| Shortcut | Action                        |
+|----------|-------------------------------|
+| ^        | Open “Add Recipe” form       |
+| `        | Focus on the search input    |
 
----
-
-## 🌐 Browser Support
-
-| Browser | Minimum Version |
-|---------|----------------|
-| Chrome  | 90+ |
-| Firefox | 88+ |
-| Safari  | 14+ |
-| Edge    | 90+ |
-
-**Requirements**: ES6 modules support and localStorage enabled
+Note: OS-level shortcut conflicts may require button use instead.
 
 ---
 
 ## ⚙️ Assumptions & Limitations
 
-### Assumptions
-
-- Modern browser with **ES6 module** support
-- **JavaScript enabled**
-- Recipe images are **external URLs** (not file uploads)
-- Ingredients/steps entered **one per line**
-- Times measured in **minutes only**
-- Single user per browser
-
-### Limitations
-
-| Limitation | Description |
-|-----------|-------------|
-| 🔒 **Local Only** | No cloud sync – data stored per browser |
-| 👤 **Single User** | No authentication or multi-user support |
-| 📸 **No Image Upload** | Only external URLs accepted |
-| 💾 **Storage Cap** | ~5-10MB localStorage limit (browser-dependent) |
-| 📤 **No Export** | Can't export recipes to file (CSV/JSON) |
-| 🖨️ **No Print View** | No printer-friendly formatting |
-| 🔄 **No Sync** | Data doesn't sync across devices |
-| 📊 **No Analytics** | No usage tracking or statistics |
+- Modern browser with ES6 support
+- JavaScript enabled
+- Recipe images via external URLs only
+- Ingredients and steps entered one per line
+- Time in minutes
+- Single user per device
+- No cloud sync or multi-user support
+- Local storage limit ~5-10MB
+- No JSON/CSV export or syncing yet
 
 ---
 
 ## 🐛 Known Issues
 
-| Issue | Impact | Workaround |
-|-------|--------|-----------|
-| **Data Loss on Cache Clear** | All recipes deleted if browser data cleared | Manually backup localStorage before clearing |
-| **Broken Image URLs** | Cards may look incomplete with missing images | Use reliable image hosting (Imgur, Unsplash) |
-| **Long Titles on Mobile** | Text may overflow on small screens | Keep titles under 40 characters |
-| **`^` Shortcut Conflicts** | May clash with OS shortcuts (especially macOS) | Use mouse to click "Add Recipe" button |
-| **No Undo Delete** | Deleted recipes can't be recovered | Double-check before confirming deletion |
-| **Background Needs Internet** | Unsplash background requires connection | App still works with plain background |
-| **Mobile Keyboard Access** | Keyboard shortcuts not accessible on mobile | Use touch interface instead |
+- Data loss if browser cache cleared
+- Broken image URLs show missing pictures
+- Long titles can overflow on small screens
+- Shortcut ^ may conflict with OS shortcuts
+- No undo after recipe deletion
+- Background requires internet for Unsplash image
+- Clipboard permissions may block copy
 
 ---
 
 ## 🔧 Technical Details
 
-### Architecture
-
-```
-┌─────────────┐
-│  index.html │  ← Entry point
-└──────┬──────┘
-       │
-       ├──→ app.js          (Main controller)
-       ├──→ ui.js           (Rendering & DOM)
-       ├──→ storage.js      (localStorage API)
-       ├──→ validation.js   (Form validation)
-       └──→ main.css        (Styling)
-```
-
-### Technologies Used
-
-- **HTML5** – Semantic structure
-- **CSS3** – Custom properties, Grid, Flexbox
-- **Vanilla JavaScript (ES6+)** – Modules, arrow functions, destructuring
-- **localStorage API** – Data persistence
-- **No frameworks** – Zero dependencies
-
-### Code Quality
-
-- ✅ Modular architecture with separation of concerns
-- ✅ Pure validation functions
-- ✅ Centralized storage management
-- ✅ Responsive design with CSS variables
-- ✅ Accessible markup with ARIA labels
+- Modular JavaScript architecture
+- Custom dark theme CSS with responsive design and print styles
+- localStorage API for data persistence
+- Accessible markup and ARIA labels
+- Keyboard shortcuts for usability
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how:
+- Fork & clone the repo
+- Create feature branches
+- Commit and push changes
+- Open pull requests
 
-1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feature/AmazingFeature`
-3. **Commit** changes: `git commit -m 'Add some AmazingFeature'`
-4. **Push** to branch: `git push origin feature/AmazingFeature`
-5. **Open** a Pull Request
-
-### Development Guidelines
-
-- Follow existing code style
-- Test on multiple browsers (Chrome, Firefox, Safari)
-- Update README for new features
-- Keep localStorage structure backward-compatible
-- Add comments for complex logic
-
-### Ideas for Contributions
-
-- 📤 Export/import recipes (JSON/CSV)
-- 🖨️ Print-friendly recipe view
-- 🏷️ Recipe tags/categories
-- ⭐ Recipe rating system
-- 🔄 Data sync with cloud storage
-- 🌙 Light/dark theme toggle
-- 📱 PWA support for offline access
-- 🔍 Advanced search (by ingredients)
+Follow coding style, test on multiple browsers, update README, and keep backward compatibility.
 
 ---
 
-
 ## 🙏 Acknowledgments
 
-- Icons: Native emoji characters
-- Inspired by modern recipe apps like Paprika, Notion, and Whisk
+- Icons are native emojis
+- Inspired by apps like Paprika, Notion, Whisk
 - Built with ❤️ and vanilla JavaScript
 
 ---
 
 ## 📈 Roadmap
 
-- [ ] Export recipes to JSON/CSV
-- [ ] Import recipes from file
-- [ ] Recipe categories/tags
-- [ ] Shopping list generator
-- [ ] Meal planning calendar
-- [ ] Nutritional information
-- [ ] Recipe scaling (servings)
-- [ ] Cloud backup integration
-- [ ] Recipe sharing (URL generation)
-- [ ] PWA support
+- JSON/CSV export & import
+- Recipe categories and tags
+- Rating system and notes
+- Light/dark theme toggle
+- PWA support
+- Advanced search features
+- Nutritional info and portion scaling
+- Cloud backup and recipe sharing
 
----
-
-<div align="center">
-
-**Made with ❤️ and vanilla JavaScript**
-
-⭐ **Star this repo** if you find it useful!
+Made with ❤️ and vanilla JavaScript  
+⭐ Star this repo if you find it useful!
 
 [⬆ Back to Top](#-recipe-manager)
-
-</div>
