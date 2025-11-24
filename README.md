@@ -130,7 +130,7 @@ text
 That's it! No build process, no npm install, no configuration needed.
 
 ### File Structure
-
+```text
 recipe-manager/
 │
 ├── index.html               # Main HTML structure
@@ -142,9 +142,7 @@ recipe-manager/
 │   ├── storage.js           # localStorage management + seed data
 │   └── validation.js        # Form validation logic
 
-
-
-text
+```
 
 ---
 
